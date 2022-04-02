@@ -1,22 +1,21 @@
-package com.nhom45.baitap_4;
+package com.nhom45.baitap_4.Views;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -25,31 +24,25 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.nhom45.baitap_4.Adapter.ImageAdapter;
+import com.nhom45.baitap_4.Adapters.ImageAdapter;
 import com.nhom45.baitap_4.Models.Image;
+import com.nhom45.baitap_4.R;
+import com.nhom45.baitap_4.Services.ReminderBroadcast;
+import com.nhom45.baitap_4.Ultils.Constants;
 import com.nhom45.baitap_4.Ultils.Helpers;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-
-    static final int CAMERA_REQUEST_CODE = 4366;
-    static final int CAMERA_PERMISSION_CODE = 1722;
-    static final String SAVE_DIRECTORY =
-            Environment.getExternalStorageDirectory().toString() +
-                    "/Android/data/com.nhom45.baitap_4/files/Pictures/";
 
     private String currentPhotoPath;
 
@@ -62,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        createNotificationChannel();
         checkPermisson();
         addControls();
         addEvents();
@@ -83,14 +77,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void readAllFile() {
         listImage.clear();
-        File saveDirectory = new File(SAVE_DIRECTORY);
+        File saveDirectory = new File(Constants.SAVE_DIRECTORY);
         File[] files = saveDirectory.listFiles();
-        for (int i = 0; i < files.length; i++) {
-            String fileName = files[i].getName();
-            String filePath = files[i].getAbsolutePath();
-            listImage.add(new Image(fileName, filePath));
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                String fileName = files[i].getName();
+                String filePath = files[i].getAbsolutePath();
+                listImage.add(new Image(fileName, filePath));
+            }
+            Collections.sort(listImage, (s1, s2) -> s1.getName().compareToIgnoreCase(s2.getName()));
+            adapterImage.notifyDataSetChanged();
         }
-        adapterImage.notifyDataSetChanged();
     }
 
     private void takePhoto() {
@@ -106,9 +103,17 @@ public class MainActivity extends AppCompatActivity {
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+                startActivityForResult(takePictureIntent, Constants.CAMERA_REQUEST_CODE);
             }
         }
+
+        Intent intent = new Intent(this, ReminderBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        long timeAtLastTakePhoto = System.currentTimeMillis();
+        long delayTime = Constants.TIME_SCHEDULE * 1000;
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtLastTakePhoto + delayTime, pendingIntent);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -128,21 +133,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void showFullScreenImage(int i) {
         Image imageSelected = listImage.get(i);
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-
-        @SuppressLint("ResourceType")
-        View dialogView = inflater.inflate(
-                R.layout.dialog,
-                findViewById(R.layout.activity_main));
-
-        ImageView imageView = dialogView.findViewById(R.id.imvDialog);
-        imageView.setImageBitmap(Helpers.getImageFromPath(imageSelected.getPath()));
-
-        dialogBuilder.setView(dialogView);
-        AlertDialog b = dialogBuilder.create();
-        b.show();
-
+//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+//        LayoutInflater inflater = this.getLayoutInflater();
+//
+//        @SuppressLint("ResourceType")
+//        View dialogView = inflater.inflate(
+//                R.layout.dialog,
+//                findViewById(R.layout.activity_main));
+//
+//        ImageView imageView = dialogView.findViewById(R.id.imvDialog);
+//        imageView.setImageBitmap(Helpers.getImageFromPath(imageSelected.getPath()));
+//
+//        dialogBuilder.setView(dialogView);
+//        AlertDialog b = dialogBuilder.create();
+//        b.show();
+        Intent intent = new Intent(this, ViewImageActivity.class);
+        intent.putExtra("image", imageSelected);
+        startActivity(intent);
     }
 
     private void checkPermisson() {
@@ -163,15 +170,29 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.CAMERA
-                }, CAMERA_PERMISSION_CODE);
+                }, Constants.CAMERA_PERMISSION_CODE);
             }
+        }
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "ReminderChannel";
+            String description = "Channel notification for Daily Selfie";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(Constants.CHANNEL_ID_REMINDER, name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager;
+            notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST_CODE) {
+        if (requestCode == Constants.CAMERA_REQUEST_CODE) {
             readAllFile();
         }
     }

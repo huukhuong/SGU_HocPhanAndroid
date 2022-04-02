@@ -1,8 +1,6 @@
-package com.nhom45.baitap_4.Adapter;
+package com.nhom45.baitap_4.Adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import com.nhom45.baitap_4.Models.Image;
 import com.nhom45.baitap_4.R;
 import com.nhom45.baitap_4.Ultils.Helpers;
 
-import java.io.File;
 import java.util.List;
 
 public class ImageAdapter extends ArrayAdapter<Image> {
