@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.nhom45.baitap_4.Adapters.ImageAdapter;
 import com.nhom45.baitap_4.Models.Image;
@@ -107,13 +108,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        Intent intent = new Intent(this, ReminderBroadcast.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        long timeAtLastTakePhoto = System.currentTimeMillis();
-        long delayTime = Constants.TIME_SCHEDULE * 1000;
-        alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtLastTakePhoto + delayTime, pendingIntent);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -179,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "ReminderChannel";
             String description = "Channel notification for Daily Selfie";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(Constants.CHANNEL_ID_REMINDER, name, importance);
             channel.setDescription(description);
 
@@ -194,6 +188,14 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.CAMERA_REQUEST_CODE) {
             readAllFile();
+
+            Intent intent = new Intent(this, ReminderBroadcast.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            long timeAtLastTakePhoto = System.currentTimeMillis();
+            long delayTime = Constants.TIME_SCHEDULE * 1000;
+            alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtLastTakePhoto + delayTime, pendingIntent);
         }
     }
 
