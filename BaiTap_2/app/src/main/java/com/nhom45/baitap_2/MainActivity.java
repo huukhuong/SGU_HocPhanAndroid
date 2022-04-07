@@ -78,16 +78,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void lazyLoad() {
-        final int count = countryArrayList.size();
-        Log.e("Lazy", "Lazy load with count = " + count);
-        for (int i = 0; i < Constants.ITEM_COUNT_LAZY; i++) {
-            try {
-                Country countrySelected = countryArrayList.get(i);
-                countryArrayListLazy.add(countrySelected);
-                countryArrayList.remove(i);
-            } catch (Exception e) {
-
+        if (countryArrayList.size() == 0) {
+            return;
+        }
+        int temp = 0;
+        for (int i = 0; i < countryArrayList.size(); i++) {
+            if (temp == Constants.ITEM_COUNT_LAZY) {
+                return;
             }
+            Country countrySelected = countryArrayList.get(i);
+            countryArrayListLazy.add(countrySelected);
+            countryArrayList.remove(i);
+            temp++;
         }
         adapterCountry.notifyDataSetChanged();
     }
