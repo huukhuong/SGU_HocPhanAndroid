@@ -39,4 +39,15 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_country" />
 
+    <LinearLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+    </LinearLayout>
+
 </LinearLayout>

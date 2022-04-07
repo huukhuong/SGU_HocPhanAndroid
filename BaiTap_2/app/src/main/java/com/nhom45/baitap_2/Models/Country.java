@@ -9,18 +9,16 @@ public class Country {
     private String countryName;
     private int population;
     private float areaInSqKm;
-    private Bitmap flagBitmap;
 
     public Country() {
     }
 
-    public Country(String countryCode, String flag, String countryName, int population, float areaInSqKm, Bitmap flagBitmap) {
+    public Country(String countryCode, String flag, String countryName, int population, float areaInSqKm) {
         this.countryCode = countryCode;
         this.flag = flag;
         this.countryName = countryName;
         this.population = population;
         this.areaInSqKm = areaInSqKm;
-        this.flagBitmap = flagBitmap;
     }
 
     public String getCountryCode() {
@@ -61,14 +59,6 @@ public class Country {
 
     public void setAreaInSqKm(float areaInSqKm) {
         this.areaInSqKm = areaInSqKm;
-    }
-
-    public Bitmap getFlagBitmap() {
-        return flagBitmap;
-    }
-
-    public void setFlagBitmap(Bitmap flagBitmap) {
-        this.flagBitmap = flagBitmap;
     }
 
     @Override

@@ -2,12 +2,14 @@ package com.nhom45.baitap_2;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.AbsListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,18 +21,20 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private LinearLayout loading;
     private AdapterCountry adapterCountry;
-    private ArrayList<Country> countryArrayList;
+    private ArrayList<Country> countryArrayList, countryArrayListLazy;
     private ListView lsvCountries;
+    private int maxCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +48,48 @@ public class MainActivity extends AppCompatActivity {
 
     private void addControls() {
         countryArrayList = new ArrayList<>();
+        countryArrayListLazy = new ArrayList<>();
+
+        loading = findViewById(R.id.loading);
         lsvCountries = findViewById(R.id.lsvCountries);
-        adapterCountry = new AdapterCountry(this, R.layout.item_country, countryArrayList);
+
+        adapterCountry = new AdapterCountry(this, R.layout.item_country, countryArrayListLazy);
         lsvCountries.setAdapter(adapterCountry);
+
+        lsvCountries.setVisibility(View.GONE);
+        loading.setVisibility(View.VISIBLE);
     }
 
     private void addEvents() {
+        lsvCountries.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
 
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
+                    lazyLoad();
+                }
+            }
+        });
+    }
+
+    private void lazyLoad() {
+        final int count = countryArrayList.size();
+        Log.e("Lazy", "Lazy load with count = " + count);
+        for (int i = 0; i < Constants.ITEM_COUNT_LAZY; i++) {
+            try {
+                Country countrySelected = countryArrayList.get(i);
+                countryArrayListLazy.add(countrySelected);
+                countryArrayList.remove(i);
+            } catch (Exception e) {
+
+            }
+        }
+        adapterCountry.notifyDataSetChanged();
     }
 
     class GetCountryAPI extends AsyncTask<Void, Void, ArrayList<Country>> {
@@ -67,15 +106,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Country> listCountries) {
             super.onPostExecute(listCountries);
             countryArrayList.addAll(listCountries);
-            adapterCountry.notifyDataSetChanged();
+            maxCount = countryArrayList.size();
             Log.e("Start", "Data get successfully");
-        }
 
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-            countryArrayList.add(country);
-            adapterCountry.notifyDataSetChanged();
+            lazyLoad();
+
+            lsvCountries.setVisibility(View.VISIBLE);
+            loading.setVisibility(View.GONE);
         }
 
         @Override
@@ -116,11 +153,11 @@ public class MainActivity extends AppCompatActivity {
 
                     Log.e("Loading", country.toString());
 
-                    url = new URL(flagUrl);
-                    connection = (HttpURLConnection) url.openConnection();
-                    Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+//                    url = new URL(flagUrl);
+//                    connection = (HttpURLConnection) url.openConnection();
+//                    Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream());
 
-                    country.setFlagBitmap(bitmap);
+//                    country.setFlagBitmap(bitmap);
 
                     this.country = country;
                     listCountries.add(country);
@@ -131,6 +168,5 @@ public class MainActivity extends AppCompatActivity {
             return listCountries;
         }
     }
-
 
 }

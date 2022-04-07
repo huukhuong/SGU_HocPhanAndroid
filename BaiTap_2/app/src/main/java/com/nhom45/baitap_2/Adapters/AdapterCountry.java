@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 
 import com.nhom45.baitap_2.Models.Country;
 import com.nhom45.baitap_2.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -54,12 +55,10 @@ public class AdapterCountry extends ArrayAdapter<Country> {
 
         DecimalFormat sdf = new DecimalFormat("###,###.###");
         Country item = getItem(position);
-        if(item.getFlagBitmap() != null) {
-            viewHolder.imgFlag.setImageBitmap(item.getFlagBitmap());
-        }
         viewHolder.txtCountryName.setText(item.getCountryName());
         viewHolder.txtPopulation.setText(sdf.format(item.getPopulation()));
         viewHolder.txtAreaSquare.setText(sdf.format(item.getAreaInSqKm()));
+        Picasso.with(mContext).load(item.getFlag()).into(viewHolder.imgFlag);
 
         return v;
     }
