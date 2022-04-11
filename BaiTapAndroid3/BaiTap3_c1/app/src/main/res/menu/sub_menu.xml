@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_sm_file"
+        android:title="File">
+        <menu>
+            <item
+                android:id="@+id/menu_sm_new"
+                android:title="New" />
+            <item
+                android:id="@+id/menu_sm_save"
+                android:title="Save" />
+            <item
+                android:id="@+id/menu_sm_load"
+                android:title="Load" />
+            <item
+                android:id="@+id/menu_sm_exit"
+                android:title="Exit" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_sm_view"
+        android:title="View" />
+</menu>
