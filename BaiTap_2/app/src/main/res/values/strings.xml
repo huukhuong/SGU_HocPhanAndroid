@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">BaiTap_2</string>
-    <string name="title">Danh sách các quốc gia\ntrên thế giới</string>
-    <string name="population">Dân số:</string>
-    <string name="people">người</string>
-    <string name="areasq">Diện tích:</string>
-    <string name="km">km</string>
-</resources>
