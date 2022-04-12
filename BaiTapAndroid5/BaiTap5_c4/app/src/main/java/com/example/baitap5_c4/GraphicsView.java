@@ -11,11 +11,11 @@ import android.view.View;
 
 public class GraphicsView extends View {
 
-    private int max = 72;
+    private int max = 105;
     private Bitmap frames[] = new Bitmap[max];
     private int i = 0;
     private long lastTick = 0;
-    private long period = 40;
+    private long period = 10;
     private MediaPlayer mediaPlayer;
 
     public GraphicsView(Context context) {
@@ -99,6 +99,39 @@ public class GraphicsView extends View {
         frames[69] = BitmapFactory.decodeResource(getResources(), R.drawable.frame69);
         frames[70] = BitmapFactory.decodeResource(getResources(), R.drawable.frame70);
         frames[71] = BitmapFactory.decodeResource(getResources(), R.drawable.frame71);
+        frames[72] = BitmapFactory.decodeResource(getResources(), R.drawable.frame72);
+        frames[73] = BitmapFactory.decodeResource(getResources(), R.drawable.frame73);
+        frames[74] = BitmapFactory.decodeResource(getResources(), R.drawable.frame74);
+        frames[75] = BitmapFactory.decodeResource(getResources(), R.drawable.frame75);
+        frames[76] = BitmapFactory.decodeResource(getResources(), R.drawable.frame76);
+        frames[77] = BitmapFactory.decodeResource(getResources(), R.drawable.frame77);
+        frames[78] = BitmapFactory.decodeResource(getResources(), R.drawable.frame78);
+        frames[79] = BitmapFactory.decodeResource(getResources(), R.drawable.frame79);
+        frames[80] = BitmapFactory.decodeResource(getResources(), R.drawable.frame80);
+        frames[81] = BitmapFactory.decodeResource(getResources(), R.drawable.frame81);
+        frames[82] = BitmapFactory.decodeResource(getResources(), R.drawable.frame82);
+        frames[83] = BitmapFactory.decodeResource(getResources(), R.drawable.frame83);
+        frames[84] = BitmapFactory.decodeResource(getResources(), R.drawable.frame84);
+        frames[85] = BitmapFactory.decodeResource(getResources(), R.drawable.frame85);
+        frames[86] = BitmapFactory.decodeResource(getResources(), R.drawable.frame86);
+        frames[87] = BitmapFactory.decodeResource(getResources(), R.drawable.frame87);
+        frames[88] = BitmapFactory.decodeResource(getResources(), R.drawable.frame88);
+        frames[89] = BitmapFactory.decodeResource(getResources(), R.drawable.frame89);
+        frames[90] = BitmapFactory.decodeResource(getResources(), R.drawable.frame90);
+        frames[91] = BitmapFactory.decodeResource(getResources(), R.drawable.frame91);
+        frames[92] = BitmapFactory.decodeResource(getResources(), R.drawable.frame92);
+        frames[93] = BitmapFactory.decodeResource(getResources(), R.drawable.frame93);
+        frames[94] = BitmapFactory.decodeResource(getResources(), R.drawable.frame94);
+        frames[95] = BitmapFactory.decodeResource(getResources(), R.drawable.frame95);
+        frames[96] = BitmapFactory.decodeResource(getResources(), R.drawable.frame96);
+        frames[97] = BitmapFactory.decodeResource(getResources(), R.drawable.frame97);
+        frames[98] = BitmapFactory.decodeResource(getResources(), R.drawable.frame98);
+        frames[99] = BitmapFactory.decodeResource(getResources(), R.drawable.frame99);
+        frames[100] = BitmapFactory.decodeResource(getResources(), R.drawable.frame100);
+        frames[101] = BitmapFactory.decodeResource(getResources(), R.drawable.frame101);
+        frames[102] = BitmapFactory.decodeResource(getResources(), R.drawable.frame102);
+        frames[103] = BitmapFactory.decodeResource(getResources(), R.drawable.frame103);
+        frames[104] = BitmapFactory.decodeResource(getResources(), R.drawable.frame104);
     }
 
     @Override
@@ -107,10 +140,10 @@ public class GraphicsView extends View {
             long time = System.currentTimeMillis() - lastTick;
             if (time >= period) {
                 lastTick = System.currentTimeMillis();
-                canvas.drawBitmap(frames[i], 0, 0, new Paint());
+                canvas.drawBitmap(frames[i], -300, 0, new Paint());
                 i++;
             } else {
-                canvas.drawBitmap(frames[i], 0, 0, new Paint());
+                canvas.drawBitmap(frames[i], -300, 0, new Paint());
             }
         } else {
             i = 0;
