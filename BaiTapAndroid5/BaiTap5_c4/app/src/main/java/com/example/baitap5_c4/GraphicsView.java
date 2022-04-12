@@ -1,12 +1,11 @@
 package com.example.baitap5_c4;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -15,11 +14,16 @@ public class GraphicsView extends View {
     private int max = 72;
     private Bitmap frames[] = new Bitmap[max];
     private int i = 0;
+    private long lastTick = 0;
+    private long period = 40;
+    private MediaPlayer mediaPlayer;
 
     public GraphicsView(Context context) {
         super(context);
-
         setUpImageList();
+
+        mediaPlayer = MediaPlayer.create(context, R.raw.pepe_dance);
+        mediaPlayer.start();
     }
 
     private void setUpImageList() {
@@ -100,15 +104,18 @@ public class GraphicsView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         if (i < max) {
-            @SuppressLint("DrawAllocation")
-            Paint paint = new Paint();
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(Color.BLACK);
-            canvas.drawBitmap(frames[i], 0, 0, paint);
+            long time = System.currentTimeMillis() - lastTick;
+            if (time >= period) {
+                lastTick = System.currentTimeMillis();
+                canvas.drawBitmap(frames[i], 0, 0, new Paint());
+                i++;
+            } else {
+                canvas.drawBitmap(frames[i], 0, 0, new Paint());
+            }
         } else {
             i = 0;
         }
-        invalidate();
+        postInvalidate();
     }
 
     @Override
