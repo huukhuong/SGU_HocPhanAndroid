@@ -1,0 +1,119 @@
+package com.example.baitap5_c3;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.view.MotionEvent;
+import android.view.View;
+
+public class GraphicsView extends View {
+
+    private int max = 72;
+    private Bitmap frames[] = new Bitmap[max];
+    private int i = 0;
+
+    public GraphicsView(Context context) {
+        super(context);
+
+        setUpImageList();
+    }
+
+    private void setUpImageList() {
+        frames[0] = BitmapFactory.decodeResource(getResources(), R.drawable.frame0);
+        frames[1] = BitmapFactory.decodeResource(getResources(), R.drawable.frame1);
+        frames[2] = BitmapFactory.decodeResource(getResources(), R.drawable.frame2);
+        frames[3] = BitmapFactory.decodeResource(getResources(), R.drawable.frame3);
+        frames[4] = BitmapFactory.decodeResource(getResources(), R.drawable.frame4);
+        frames[5] = BitmapFactory.decodeResource(getResources(), R.drawable.frame5);
+        frames[6] = BitmapFactory.decodeResource(getResources(), R.drawable.frame6);
+        frames[7] = BitmapFactory.decodeResource(getResources(), R.drawable.frame7);
+        frames[8] = BitmapFactory.decodeResource(getResources(), R.drawable.frame8);
+        frames[9] = BitmapFactory.decodeResource(getResources(), R.drawable.frame9);
+        frames[10] = BitmapFactory.decodeResource(getResources(), R.drawable.frame10);
+        frames[11] = BitmapFactory.decodeResource(getResources(), R.drawable.frame11);
+        frames[12] = BitmapFactory.decodeResource(getResources(), R.drawable.frame12);
+        frames[13] = BitmapFactory.decodeResource(getResources(), R.drawable.frame13);
+        frames[14] = BitmapFactory.decodeResource(getResources(), R.drawable.frame14);
+        frames[15] = BitmapFactory.decodeResource(getResources(), R.drawable.frame15);
+        frames[16] = BitmapFactory.decodeResource(getResources(), R.drawable.frame16);
+        frames[17] = BitmapFactory.decodeResource(getResources(), R.drawable.frame17);
+        frames[18] = BitmapFactory.decodeResource(getResources(), R.drawable.frame18);
+        frames[19] = BitmapFactory.decodeResource(getResources(), R.drawable.frame19);
+        frames[20] = BitmapFactory.decodeResource(getResources(), R.drawable.frame20);
+        frames[21] = BitmapFactory.decodeResource(getResources(), R.drawable.frame21);
+        frames[22] = BitmapFactory.decodeResource(getResources(), R.drawable.frame22);
+        frames[23] = BitmapFactory.decodeResource(getResources(), R.drawable.frame23);
+        frames[24] = BitmapFactory.decodeResource(getResources(), R.drawable.frame24);
+        frames[25] = BitmapFactory.decodeResource(getResources(), R.drawable.frame25);
+        frames[26] = BitmapFactory.decodeResource(getResources(), R.drawable.frame26);
+        frames[27] = BitmapFactory.decodeResource(getResources(), R.drawable.frame27);
+        frames[28] = BitmapFactory.decodeResource(getResources(), R.drawable.frame28);
+        frames[29] = BitmapFactory.decodeResource(getResources(), R.drawable.frame29);
+        frames[30] = BitmapFactory.decodeResource(getResources(), R.drawable.frame30);
+        frames[31] = BitmapFactory.decodeResource(getResources(), R.drawable.frame31);
+        frames[32] = BitmapFactory.decodeResource(getResources(), R.drawable.frame32);
+        frames[33] = BitmapFactory.decodeResource(getResources(), R.drawable.frame33);
+        frames[34] = BitmapFactory.decodeResource(getResources(), R.drawable.frame34);
+        frames[35] = BitmapFactory.decodeResource(getResources(), R.drawable.frame35);
+        frames[36] = BitmapFactory.decodeResource(getResources(), R.drawable.frame36);
+        frames[37] = BitmapFactory.decodeResource(getResources(), R.drawable.frame37);
+        frames[38] = BitmapFactory.decodeResource(getResources(), R.drawable.frame38);
+        frames[39] = BitmapFactory.decodeResource(getResources(), R.drawable.frame39);
+        frames[40] = BitmapFactory.decodeResource(getResources(), R.drawable.frame40);
+        frames[41] = BitmapFactory.decodeResource(getResources(), R.drawable.frame41);
+        frames[42] = BitmapFactory.decodeResource(getResources(), R.drawable.frame42);
+        frames[43] = BitmapFactory.decodeResource(getResources(), R.drawable.frame43);
+        frames[44] = BitmapFactory.decodeResource(getResources(), R.drawable.frame44);
+        frames[45] = BitmapFactory.decodeResource(getResources(), R.drawable.frame45);
+        frames[46] = BitmapFactory.decodeResource(getResources(), R.drawable.frame46);
+        frames[47] = BitmapFactory.decodeResource(getResources(), R.drawable.frame47);
+        frames[48] = BitmapFactory.decodeResource(getResources(), R.drawable.frame48);
+        frames[49] = BitmapFactory.decodeResource(getResources(), R.drawable.frame49);
+        frames[50] = BitmapFactory.decodeResource(getResources(), R.drawable.frame50);
+        frames[51] = BitmapFactory.decodeResource(getResources(), R.drawable.frame51);
+        frames[52] = BitmapFactory.decodeResource(getResources(), R.drawable.frame52);
+        frames[53] = BitmapFactory.decodeResource(getResources(), R.drawable.frame53);
+        frames[54] = BitmapFactory.decodeResource(getResources(), R.drawable.frame54);
+        frames[55] = BitmapFactory.decodeResource(getResources(), R.drawable.frame55);
+        frames[56] = BitmapFactory.decodeResource(getResources(), R.drawable.frame56);
+        frames[57] = BitmapFactory.decodeResource(getResources(), R.drawable.frame57);
+        frames[58] = BitmapFactory.decodeResource(getResources(), R.drawable.frame58);
+        frames[59] = BitmapFactory.decodeResource(getResources(), R.drawable.frame59);
+        frames[60] = BitmapFactory.decodeResource(getResources(), R.drawable.frame60);
+        frames[61] = BitmapFactory.decodeResource(getResources(), R.drawable.frame61);
+        frames[62] = BitmapFactory.decodeResource(getResources(), R.drawable.frame62);
+        frames[63] = BitmapFactory.decodeResource(getResources(), R.drawable.frame63);
+        frames[64] = BitmapFactory.decodeResource(getResources(), R.drawable.frame64);
+        frames[65] = BitmapFactory.decodeResource(getResources(), R.drawable.frame65);
+        frames[66] = BitmapFactory.decodeResource(getResources(), R.drawable.frame66);
+        frames[67] = BitmapFactory.decodeResource(getResources(), R.drawable.frame67);
+        frames[68] = BitmapFactory.decodeResource(getResources(), R.drawable.frame68);
+        frames[69] = BitmapFactory.decodeResource(getResources(), R.drawable.frame69);
+        frames[70] = BitmapFactory.decodeResource(getResources(), R.drawable.frame70);
+        frames[71] = BitmapFactory.decodeResource(getResources(), R.drawable.frame71);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (i < max) {
+            @SuppressLint("DrawAllocation")
+            Paint paint = new Paint();
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.BLACK);
+            canvas.drawBitmap(frames[i], 0, 0, paint);
+        } else {
+            i = 0;
+        }
+        invalidate();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        i++;
+        return true;
+    }
+}
