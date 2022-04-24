@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fff"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
@@ -45,81 +45,12 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/population"
-                    android:textColor="#000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtPopulation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="4dp"
-                    android:text="98.764.534"
-                    android:textColor="#000"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/people"
-                    android:textColor="#000"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/areasq"
-                    android:textColor="#000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtAreaSquare"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="4dp"
-                    android:text="331.690"
-                    android:textColor="#000"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/km"
-                    android:textColor="#000"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="2"
-                    android:textColor="#000"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#ccc" />
+        android:background="#72CCCCCC" />
 
 </LinearLayout>

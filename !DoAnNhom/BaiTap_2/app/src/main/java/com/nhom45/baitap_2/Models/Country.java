@@ -1,24 +1,28 @@
 package com.nhom45.baitap_2.Models;
 
-import android.graphics.Bitmap;
+import java.io.Serializable;
 
-public class Country {
+public class Country  implements Serializable {
 
     private String countryCode;
+    private String capital;
     private String flag;
     private String countryName;
     private int population;
     private float areaInSqKm;
+    private String map;
 
     public Country() {
     }
 
-    public Country(String countryCode, String flag, String countryName, int population, float areaInSqKm) {
+    public Country(String countryCode, String capital, String flag, String countryName, int population, float areaInSqKm, String map) {
         this.countryCode = countryCode;
+        this.capital = capital;
         this.flag = flag;
         this.countryName = countryName;
         this.population = population;
         this.areaInSqKm = areaInSqKm;
+        this.map = map;
     }
 
     public String getCountryCode() {
@@ -59,6 +63,22 @@ public class Country {
 
     public void setAreaInSqKm(float areaInSqKm) {
         this.areaInSqKm = areaInSqKm;
+    }
+
+    public String getCapital() {
+        return capital;
+    }
+
+    public void setCapital(String capital) {
+        this.capital = capital;
+    }
+
+    public String getMap() {
+        return map;
+    }
+
+    public void setMap(String map) {
+        this.map = map;
     }
 
     @Override

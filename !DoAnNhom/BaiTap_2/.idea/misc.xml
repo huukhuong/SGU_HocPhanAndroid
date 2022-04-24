@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/progress_animation.xml" value="0.2785" />
+        <entry key="app/src/main/res/layout/activity_detail.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.32971014492753625" />
         <entry key="app/src/main/res/layout/item_country.xml" value="0.35625" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.1" />

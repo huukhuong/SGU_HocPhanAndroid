@@ -1,5 +1,6 @@
 package com.nhom45.baitap_2;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -7,7 +8,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -35,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Country> countryArrayList, countryArrayListLazy;
     private ListView lsvCountries;
     private int maxCount = 0;
+    private ImageView loadingImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         countryArrayListLazy = new ArrayList<>();
 
         loading = findViewById(R.id.loading);
+        loadingImg = findViewById(R.id.loadingImg);
         lsvCountries = findViewById(R.id.lsvCountries);
 
         adapterCountry = new AdapterCountry(this, R.layout.item_country, countryArrayListLazy);
@@ -75,6 +83,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        lsvCountries.setOnItemClickListener((adapterView, view, i, l) -> {
+            onItemClick(i);
+        });
+    }
+
+    private void onItemClick(int i) {
+        Country country = countryArrayListLazy.get(i);
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        intent.putExtra("country", country);
+        startActivity(intent);
     }
 
     private void lazyLoad() {
@@ -102,6 +121,16 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             countryArrayList.clear();
+
+            RotateAnimation rotate = new RotateAnimation(
+                    0,
+                    180, Animation.RELATIVE_TO_SELF,
+                    0.5f, Animation.RELATIVE_TO_SELF,
+                    0.5f);
+            rotate.setDuration(3000);
+            rotate.setInterpolator(new LinearInterpolator());
+
+            loadingImg.startAnimation(rotate);
         }
 
         @Override
@@ -146,20 +175,20 @@ public class MainActivity extends AppCompatActivity {
                             (Constants.API_FLAG_URL +
                                     countryObject.getString(Constants.FIELD_COUNTRY_FLAG) +
                                     Constants.IMAGE_EXTENSION).toLowerCase();
+                    final String mapUrl =
+                            Constants.API_MAP_URL +
+                                    countryObject.getString(Constants.FIELD_COUNTRY_MAP).toUpperCase() +
+                                    Constants.MAP_EXTENSION;
 
                     country.setCountryCode(countryObject.getString(Constants.FIELD_COUNTRY_CODE));
                     country.setFlag(flagUrl);
+                    country.setCapital(countryObject.getString(Constants.FIELD_COUNTRY_CAPITAL));
                     country.setCountryName(countryObject.getString(Constants.FIELD_COUNTRY_NAME));
                     country.setPopulation(Integer.parseInt(countryObject.getString(Constants.FIELD_COUNTRY_POPULATION)));
                     country.setAreaInSqKm(Float.parseFloat(countryObject.getString(Constants.FIELD_COUNTRY_AREAINSQKM)));
+                    country.setMap(mapUrl);
 
                     Log.e("Loading", country.toString());
-
-//                    url = new URL(flagUrl);
-//                    connection = (HttpURLConnection) url.openConnection();
-//                    Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream());
-
-//                    country.setFlagBitmap(bitmap);
 
                     this.country = country;
                     listCountries.add(country);
