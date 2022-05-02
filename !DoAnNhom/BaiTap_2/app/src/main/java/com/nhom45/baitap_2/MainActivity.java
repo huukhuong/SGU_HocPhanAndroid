@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     final String flagUrl =
                             (Constants.API_FLAG_URL +
                                     countryObject.getString(Constants.FIELD_COUNTRY_FLAG) +
-                                    Constants.IMAGE_EXTENSION).toLowerCase();
+                                    Constants.FLAG_EXTENSION).toLowerCase();
                     final String mapUrl =
                             Constants.API_MAP_URL +
                                     countryObject.getString(Constants.FIELD_COUNTRY_MAP).toUpperCase() +

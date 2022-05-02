@@ -13,7 +13,7 @@ public class Constants {
     public static final String FIELD_COUNTRY_NAME = "countryName";
     public static final String FIELD_COUNTRY_POPULATION = "population";
     public static final String FIELD_COUNTRY_AREAINSQKM = "areaInSqKm";
-    public static final String IMAGE_EXTENSION = ".gif";
+    public static final String FLAG_EXTENSION = ".gif";
     public static final String MAP_EXTENSION = ".png";
     public static final int ITEM_COUNT_LAZY = 5;
 

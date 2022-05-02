@@ -30,19 +30,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="90dp"
-                android:layout_height="47dp"
-                app:cardBackgroundColor="#ccc"
-                app:cardCornerRadius="6dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/us_flag" />
-
-            </androidx.cardview.widget.CardView>
+            <Spinner
+                android:spinnerMode="dialog"
+                android:id="@+id/spnFrom"
+                android:backgroundTint="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
 
 
             <LinearLayout
@@ -58,16 +51,7 @@
                     android:fontFamily="@font/itim"
                     android:text="0"
                     android:textColor="@color/white"
-                    android:textSize="37dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-10dp"
-                    android:fontFamily="@font/itim"
-                    android:text="$"
-                    android:textColor="@color/white"
-                    android:textSize="24dp" />
+                    android:textSize="30dp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -93,6 +77,8 @@
                 app:cardCornerRadius="100dp">
 
                 <ImageButton
+                    android:id="@+id/btnReverse"
+                    android:background="@drawable/circle_button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:backgroundTint="@color/white"
@@ -106,20 +92,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="90dp"
-                android:layout_height="47dp"
-                app:cardBackgroundColor="#ccc"
-                app:cardCornerRadius="6dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/vn_flag" />
-
-            </androidx.cardview.widget.CardView>
-
+            <Spinner
+                android:spinnerMode="dialog"
+                android:id="@+id/spnTo"
+                android:backgroundTint="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -134,16 +112,7 @@
                     android:fontFamily="@font/itim"
                     android:text="0"
                     android:textColor="@color/white"
-                    android:textSize="37dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-10dp"
-                    android:fontFamily="@font/itim"
-                    android:text="đ"
-                    android:textColor="@color/white"
-                    android:textSize="24dp" />
+                    android:textSize="30dp" />
 
             </LinearLayout>
         </LinearLayout>
