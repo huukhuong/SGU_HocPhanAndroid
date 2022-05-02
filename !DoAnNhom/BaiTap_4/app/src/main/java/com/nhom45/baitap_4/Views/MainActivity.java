@@ -12,8 +12,10 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +26,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -74,6 +79,24 @@ public class MainActivity extends AppCompatActivity {
         lsvImages.setOnItemClickListener((adapterView, view, i, l) -> {
             showFullScreenImage(i);
         });
+        lsvImages.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            deleteImageFile(i);
+            return true;
+        });
+    }
+
+    private void deleteImageFile(int position) {
+        new AlertDialog.Builder(this)
+                .setTitle("Warning")
+                .setMessage("Do you really want to delete this photo?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    Image image = listImage.get(position);
+                    File file = new File(image.getPath());
+                    file.delete();
+                    readAllFile();
+                })
+                .setNegativeButton("Cancel", null).show();
     }
 
     private void readAllFile() {
@@ -84,7 +107,9 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < files.length; i++) {
                 String fileName = files[i].getName();
                 String filePath = files[i].getAbsolutePath();
-                listImage.add(new Image(fileName, filePath));
+                if (!fileName.isEmpty() && !filePath.isEmpty()) {
+                    listImage.add(new Image(fileName, filePath));
+                }
             }
             Collections.sort(listImage, (s1, s2) -> s1.getName().compareToIgnoreCase(s2.getName()));
             adapterImage.notifyDataSetChanged();
@@ -127,20 +152,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void showFullScreenImage(int i) {
         Image imageSelected = listImage.get(i);
-//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-//        LayoutInflater inflater = this.getLayoutInflater();
-//
-//        @SuppressLint("ResourceType")
-//        View dialogView = inflater.inflate(
-//                R.layout.dialog,
-//                findViewById(R.layout.activity_main));
-//
-//        ImageView imageView = dialogView.findViewById(R.id.imvDialog);
-//        imageView.setImageBitmap(Helpers.getImageFromPath(imageSelected.getPath()));
-//
-//        dialogBuilder.setView(dialogView);
-//        AlertDialog b = dialogBuilder.create();
-//        b.show();
         Intent intent = new Intent(this, ViewImageActivity.class);
         intent.putExtra("image", imageSelected);
         startActivity(intent);
@@ -187,16 +198,55 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.CAMERA_REQUEST_CODE) {
-            readAllFile();
-
-            Intent intent = new Intent(this, ReminderBroadcast.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            long timeAtLastTakePhoto = System.currentTimeMillis();
-            long delayTime = Constants.TIME_SCHEDULE * 1000;
-            alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtLastTakePhoto + delayTime, pendingIntent);
+            showConfirmDialog();
         }
+    }
+
+    private void showConfirmDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        @SuppressLint("ResourceType")
+        View dialogView = inflater.inflate(R.layout.confirm_save_dialog, findViewById(R.layout.activity_main));
+        dialogBuilder.setView(dialogView);
+        AlertDialog b = dialogBuilder.create();
+
+        ImageView imgReview = dialogView.findViewById(R.id.imgReview);
+        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
+        Button btnSave = dialogView.findViewById(R.id.btnSave);
+
+        File image = new File(currentPhotoPath);
+        imgReview.setImageBitmap(Helpers.getImageFromPath(image.getPath()));
+
+        btnCancel.setOnClickListener(e -> {
+            // delete file
+            File file = new File(currentPhotoPath);
+            file.delete();
+            if (b.isShowing()) {
+                b.dismiss();
+            }
+        });
+
+        btnSave.setOnClickListener(e -> {
+            if (b.isShowing()) {
+                b.dismiss();
+            }
+            pushNotification();
+        });
+
+        b.show();
+        b.setOnDismissListener(e -> {
+            readAllFile();
+        });
+    }
+
+    private void pushNotification() {
+        Intent intent = new Intent(this, ReminderBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        long timeAtLastTakePhoto = System.currentTimeMillis();
+        long delayTime = Constants.TIME_SCHEDULE * 1000;
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtLastTakePhoto + delayTime, pendingIntent);
     }
 
     @Override
