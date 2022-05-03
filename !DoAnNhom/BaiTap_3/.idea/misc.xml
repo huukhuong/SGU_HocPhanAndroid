@@ -7,9 +7,11 @@
         <entry key="app/src/main/res/drawable/circle_button.xml" value="0.2405" />
         <entry key="app/src/main/res/drawable/item_currency.xml" value="0.2545" />
         <entry key="app/src/main/res/drawable/item_currency_selected.xml" value="0.2545" />
+        <entry key="app/src/main/res/layout/activity_history.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_currency.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/item_currency_selected.xml" value="0.35625" />
+        <entry key="app/src/main/res/layout/item_history.xml" value="0.33" />
         <entry key="app/src/main/res/layout/spinner_dropdown_item.xml" value="1.1973684210526316" />
         <entry key="app/src/main/res/layout/spinner_item.xml" value="0.32971014492753625" />
       </map>

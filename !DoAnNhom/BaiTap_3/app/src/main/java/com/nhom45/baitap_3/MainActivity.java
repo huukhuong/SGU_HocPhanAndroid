@@ -2,6 +2,7 @@ package com.nhom45.baitap_3;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -12,12 +13,16 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.button.MaterialButton;
 import com.nhom45.baitap_3.Adapters.AdapterSpiner;
 import com.nhom45.baitap_3.Models.Currency;
+import com.nhom45.baitap_3.Models.History;
 import com.nhom45.baitap_3.Ultils.Constants;
+import com.nhom45.baitap_3.Ultils.CurrencySQLiteHelpers;
 import com.nhom45.baitap_3.Ultils.XMLDOMParser;
 
 import org.json.JSONArray;
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnNum1, btnNum2, btnNum3, btnNum4, btnNum5, btnNum6, btnNum7, btnNum8, btnNum9, btnNum0, btnNumClear;
     private ImageButton btnReverse;
     private ImageButton btnNumBackspace;
+    private MaterialButton btnSave, btnHistory;
     private ArrayList<Button> arrayButtonNumPad;
     private TextView txtInput, txtOutput;
     private String inputValue = "0";
@@ -61,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
     private void addControls() {
         txtInput = findViewById(R.id.txtInput);
         txtOutput = findViewById(R.id.txtOutput);
+
+        btnSave = findViewById(R.id.btnSave);
+        btnHistory = findViewById(R.id.btnHistory);
 
         btnNum1 = findViewById(R.id.btnNum1);
         btnNum2 = findViewById(R.id.btnNum2);
@@ -106,6 +115,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
+
+        btnSave.setOnClickListener(e -> {
+            saveExchangeHistory();
+        });
+
+        btnHistory.setOnClickListener(e -> {
+            viewHistories();
+        });
+
         for (Button btn : arrayButtonNumPad) {
             btn.setOnClickListener(e -> {
                 setNumpadClick(btn);
@@ -155,6 +173,20 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+    }
+
+    private void saveExchangeHistory() {
+        History history = new History(0, codeFrom, txtInput.getText().toString(), codeTo, txtOutput.getText().toString(), "");
+        Log.e("SAVE STRING", history.toString());
+
+        CurrencySQLiteHelpers helpers = new CurrencySQLiteHelpers(this);
+        helpers.add(history);
+
+        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void viewHistories() {
+        startActivity(new Intent(this, HistoryActivity.class));
     }
 
     private void reverseButton() {
