@@ -14,7 +14,7 @@ import java.util.Date;
 
 public class CurrencySQLiteHelpers extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "NoteManager";
+    private static final String DATABASE_NAME = "CurrencyManager";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME = "histories";
 
@@ -60,7 +60,7 @@ public class CurrencySQLiteHelpers extends SQLiteOpenHelper {
     }
 
     public ArrayList<History> getList() {
-        ArrayList<History> studentList = new ArrayList<>();
+        ArrayList<History> historyList = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + ID + " DESC";
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -75,9 +75,9 @@ public class CurrencySQLiteHelpers extends SQLiteOpenHelper {
                     cursor.getString(3),
                     cursor.getString(4),
                     cursor.getString(5));
-            studentList.add(history);
+            historyList.add(history);
             cursor.moveToNext();
         }
-        return studentList;
+        return historyList;
     }
 }
