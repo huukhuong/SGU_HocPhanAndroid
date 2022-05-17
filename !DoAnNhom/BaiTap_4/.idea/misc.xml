@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/item_list.xml" value="0.2825" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.32971014492753625" />
+        <entry key="app/src/main/res/layout/activity_trash.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/activity_view_image.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/confirm_save_dialog.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/dialog.xml" value="0.33" />

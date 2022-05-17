@@ -2,9 +2,9 @@ package com.nhom45.baitap_2.Ultils;
 
 public class Constants {
 
-    public static final String API_URL = "http://api.geonames.org/countryInfoJSON?username=btandroid2";
-    public static final String API_FLAG_URL = "https://img.geonames.org/flags/x/";
-    public static final String API_MAP_URL = "https://img.geonames.org/img/country/250/";
+    public static final String API_URL = "http://api.geonames.org/countryInfoJSON?username=kayden2510";
+    public static final String API_FLAG_URL = "http://img.geonames.org/flags/x/";
+    public static final String API_MAP_URL = "http://img.geonames.org/img/country/250/";
     public static final String API_ARRAY_NAME = "geonames";
     public static final String FIELD_COUNTRY_CODE = "countryCode";
     public static final String FIELD_COUNTRY_FLAG = "countryCode";

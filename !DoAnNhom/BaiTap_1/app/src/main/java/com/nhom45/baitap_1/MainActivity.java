@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.slider.Slider;
+
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,9 +51,19 @@ public class MainActivity extends AppCompatActivity {
                 -1020018,
                 -4625080,
                 -213686123,
+                -19256,
+                -436278
         };
+        Random rnd = new Random();
+        for (int i = colorArray.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(colorArray.length - 1);
+            int a = colorArray[index];
+            colorArray[index] = colorArray[i];
+            colorArray[i] = a;
+        }
         for (int i = 0; i < viewArray.length; i++) {
             viewArray[i].setBackgroundColor(colorArray[i]);
+            Log.e("COLOR", colorArray[i] + "");
         }
     }
 

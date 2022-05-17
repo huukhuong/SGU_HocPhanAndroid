@@ -48,6 +48,7 @@ public class AdapterCountry extends ArrayAdapter<Country> {
         Country item = getItem(position);
         viewHolder.txtCountryName.setText(item.getCountryName());
         Picasso.with(mContext).load(item.getFlag()).into(viewHolder.imgFlag);
+//        Picasso.with(mContext).load("https://img.geonames.org/flags/x/vn.gif").into(viewHolder.imgFlag);
 
         return v;
     }

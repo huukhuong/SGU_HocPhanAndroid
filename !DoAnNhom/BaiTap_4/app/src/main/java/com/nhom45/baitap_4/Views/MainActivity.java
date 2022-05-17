@@ -1,21 +1,13 @@
 package com.nhom45.baitap_4.Views;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,12 +18,15 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import com.nhom45.baitap_4.Adapters.ImageAdapter;
 import com.nhom45.baitap_4.Models.Image;
@@ -45,7 +40,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -92,8 +86,13 @@ public class MainActivity extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
                     Image image = listImage.get(position);
-                    File file = new File(image.getPath());
-                    file.delete();
+                    File fileFrom = new File(image.getPath());
+                    File trashFolder = new File(Constants.TRASH_DIRECTORY);
+                    if (!trashFolder.exists()) {
+                        trashFolder.mkdir();
+                    }
+                    File fileTo = new File(Constants.TRASH_DIRECTORY + fileFrom.getName());
+                    fileFrom.renameTo(fileTo);
                     readAllFile();
                 })
                 .setNegativeButton("Cancel", null).show();
@@ -261,8 +260,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.takePhoto:
                 takePhoto();
                 break;
+            case R.id.trash:
+                startActivity(new Intent(MainActivity.this, TrashActivity.class));
+                break;
         }
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readAllFile();
+    }
 }

@@ -22,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BaiTap_4">
         <activity
+            android:name=".Views.TrashActivity"
+            android:exported="false" />
+        <activity
             android:name=".Views.ViewImageActivity"
             android:exported="false" />
 
